@@ -1,3 +1,4 @@
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -8,27 +9,78 @@ describe('QueryInputComponent', function () {
 
     beforeEach(() => {
         TestBed.configureTestingModule({ declarations: [QueryInputComponent] });
+
         fixture = TestBed.createComponent(QueryInputComponent);
         fixture.detectChanges();
+
+        spyOn(fixture.componentInstance.onSubmitted, 'emit');
     });
 
-    function getElement(query: string): any {
-        return fixture.debugElement.query(By.css(query)).nativeElement;
+    function getElement(query: string): DebugElement {
+        return fixture.debugElement.query(By.css(query));
     }
 
-    it('should instantiate component', () => {
-        expect(fixture.componentInstance instanceof QueryInputComponent).toBe(true);
-    });
+    function getTextField() {
+        return getElement('input[type="text"]').nativeElement;
+    }
+
+    function getButton() {
+        return getElement('input[type="button"]').nativeElement;
+    }
+
+    function pressEnter() {
+        let input = getElement('input[type="text"]');
+        input.triggerEventHandler('keyup.enter', {});
+    }
+
+    function userInput(string: string) {
+        let input = getElement('input[type="text"]');
+        input.nativeElement.value = string;
+    }
+
+    function expectOnSubmitted(value: string) {
+        expect(fixture.componentInstance.onSubmitted.emit).toHaveBeenCalledWith(value);
+    }
 
     it('should have a text field', () => {
-        let input = getElement('input[type="text"]');
+        let input = getTextField();
 
         expect(input).not.toBeNull();
     });
 
     it('should have a go button', () => {
-        let input = getElement('input[type="button"]');
+        let button = getButton();
 
-        expect(input.value).toBe('go');
+        expect(button.value).toBe('go');
+    });
+
+    it('should submit empty string using button', () => {
+        let button = getButton();
+
+        button.click();
+
+        expectOnSubmitted('');
+    });
+
+    it('should submit empty string using return', () => {
+        pressEnter();
+
+        expectOnSubmitted('');
+    });
+
+    it('should submit query using button', () => {
+        let button = getButton();
+
+        userInput('query');
+        button.click();
+
+        expectOnSubmitted('query');
+    });
+
+    it('should submit query using return', () => {
+        userInput('query');
+        pressEnter();
+
+        expectOnSubmitted('query');
     });
 });
