@@ -1,37 +1,45 @@
-/* tslint:disable:no-unused-variable */
-import { AppComponent } from './app.component';
-
 import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
-import { By }             from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { KanbanComponent } from './components/kanban.component';
+import { QueryInputComponent } from './components/query-input.component';
+import { SipGateway } from './services/sip-gateway.service';
 
-////////  SPECS  /////////////
+describe('AppComponent', function () {
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            declarations: [
+                AppComponent,
+                QueryInputComponent,
+                KanbanComponent
+            ],
+            providers: [
+                SipGateway
+            ]
+        });
+    });
 
-/// Delete this
-describe('Smoke test', () => {
-  it('should run a passing test', () => {
-    expect(true).toEqual(true, 'should pass');
-  });
-});
+    it('should instantiate component', () => {
+        let fixture = TestBed.createComponent(AppComponent);
+        expect(fixture.componentInstance instanceof AppComponent).toBe(true, 'should create AppComponent');
+    });
 
-describe('AppComponent with TCB', function () {
-  beforeEach(() => {
-    TestBed.configureTestingModule({declarations: [AppComponent]});
-  });
+    it('should have query input', () => {
+        let fixture = TestBed.createComponent(AppComponent);
+        fixture.detectChanges();
 
-  it('should instantiate component', () => {
-    let fixture = TestBed.createComponent(AppComponent);
-    expect(fixture.componentInstance instanceof AppComponent).toBe(true, 'should create AppComponent');
-  });
+        let input = fixture.debugElement.query(By.css('arch-query-input')).nativeElement;
 
-  it('should have expected <h1> text', () => {
-    let fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
+        expect(input).not.toBeNull();
+    });
 
-    let h1 = fixture.debugElement.query(el => el.name === 'h1').nativeElement;  // it works
+    it('should have kanban', () => {
+        let fixture = TestBed.createComponent(AppComponent);
+        fixture.detectChanges();
 
-        h1 = fixture.debugElement.query(By.css('h1')).nativeElement;            // preferred
+        let kanban = fixture.debugElement.query(By.css('arch-kanban')).nativeElement;
 
-    expect(h1.innerText).toMatch(/angular 2 app/i, '<h1> should say something about "Angular 2 App"');
-  });
+        expect(kanban).not.toBeNull();
+    });
 });
