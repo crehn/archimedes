@@ -21,7 +21,3 @@ export class Sip {
         }
     }
 }
-
-export class Guid {
-    value: string;
-}

@@ -1,10 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { Sip } from './models/sip';
 import { SipGateway } from './services/sip-gateway.service';
+import { AlertType } from './utils/alerts/alert';
+import { AlertsComponent } from './utils/alerts/alerts.component';
 
 @Component({
     selector: 'arch-app',
+    styles: [`
+    .alerts-fixed {
+        position:fixed;
+    }
+    `],
     template: `
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -30,6 +37,7 @@ import { SipGateway } from './services/sip-gateway.service';
 
 <div class="container">
     <arch-query-input (onSubmitted)="updateSips($event)"></arch-query-input>
+    <arch-alerts class="alerts-fixed col-xs-11"></arch-alerts>
     <arch-kanban [sips]="sips"></arch-kanban>
 </div>
     `
@@ -37,11 +45,17 @@ import { SipGateway } from './services/sip-gateway.service';
 export class AppComponent {
     private sips: Sip[];
 
+    @ViewChild(AlertsComponent)
+    private alerts: AlertsComponent;
+
     constructor(private sipGateway: SipGateway) {
     }
 
     public updateSips(query: string) {
-        this.sips = this.sipGateway.querySips(query);
+        this.sipGateway.querySips(query)
+            .subscribe(
+            sips => this.sips = sips,
+            errorMessage => this.alerts.add(AlertType.danger, errorMessage));
         console.log(this.sips);
     }
 }

@@ -5,6 +5,7 @@ import { Sip } from '../models/sip';
 @Component({
     selector: 'arch-kanban',
     template: `
+sips:
 <div *ngFor="let sip of sips">
     <div>
         {{sip.title}}

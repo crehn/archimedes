@@ -50,6 +50,11 @@ module.exports = function(config) {
       // Angular itself
       {pattern: 'node_modules/@angular/**/*.js', included: false, watched: false},
       {pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false},
+      
+      { pattern: 'node_modules/ng2-bootstrap/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/ng2-bootstrap/**/*.js.map', included: false, watched: false },
+      { pattern: 'node_modules/moment/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/moment/**/*.js.map', included: false, watched: false },
 
       {pattern: 'systemjs.config.js', included: false, watched: false},
       {pattern: 'systemjs.config.extras.js', included: false, watched: false},

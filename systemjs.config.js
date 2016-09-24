@@ -21,6 +21,8 @@
 
       // other libraries
       'rxjs': 'npm:rxjs',
+      'ng2-bootstrap': 'npm:ng2-bootstrap',
+      'moment': 'npm:moment/moment.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -29,6 +31,9 @@
         defaultExtension: 'js'
       },
       rxjs: {
+        defaultExtension: 'js'
+      },
+      'ng2-bootstrap': {
         defaultExtension: 'js'
       },
     }
