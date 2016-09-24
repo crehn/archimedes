@@ -1,3 +1,11 @@
 body {
     padding-top: 50px;
 }
+
+.sip-icon {
+    border: 1px solid black;
+    width: 4rem;
+    height: 4rem;
+    float:left;
+    margin: 0.75rem;
+}
