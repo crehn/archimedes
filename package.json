@@ -58,7 +58,8 @@
     "@types/core-js": "^0.9.32",
     "@types/jasmine": "^2.2.33",
     "@types/node": "^6.0.41",
-    "@types/protractor": "^1.5.18"
+    "@types/protractor": "^1.5.18",
+    "@types/selenium-webdriver": "2.44.*"
   },
   "repository": {}
 }

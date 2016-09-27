@@ -1,29 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
 import { By } from '@angular/platform-browser';
-import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppComponent } from './app.component';
-import { KanbanComponent } from './components/kanban.component';
-import { QueryInputComponent } from './components/query-input.component';
-import { SipGateway } from './services/sip-gateway.service';
-import { AlertsComponent } from './utils/alerts/alerts.component';
+import { AppModule } from './app.module';
 
 describe('AppComponent', function () {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                Ng2BootstrapModule,
-                HttpModule
-            ],
-            declarations: [
-                AppComponent,
-                QueryInputComponent,
-                KanbanComponent,
-                AlertsComponent
-            ],
-            providers: [
-                SipGateway
+                AppModule
             ]
         });
     });
