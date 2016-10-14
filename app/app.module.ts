@@ -5,11 +5,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppComponent } from './app.component';
-import { KanbanColumnComponent, KanbanComponent, LabeledTextComponent, SipCardComponent, SipDetailsComponent }
-    from './components/kanban.component';
+import { KanbanColumnComponent } from './components/kanban-column.component';
+import { KanbanComponent, SipDetailsComponent } from './components/kanban.component';
 import { QueryInputComponent } from './components/query-input.component';
+import { SipCardComponent } from './components/sip-card.component';
 import { SipGateway } from './services/sip-gateway.service';
 import { AlertsComponent } from './utils/alerts/alerts.component';
+import { LabeledTextComponent } from './utils/labeled-text/labeled-text.component';
 
 @NgModule({
     imports: [

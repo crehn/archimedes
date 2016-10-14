@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, QueryList, ViewChildren } from '@angular/core';
 
 import { Sip } from '../models/sip';
+import { KanbanColumnComponent } from './kanban-column.component';
 
 @Component({
     selector: 'arch-kanban',
@@ -35,103 +36,16 @@ export class KanbanComponent {
     @Input() sips: Sip[];
     private selectedSip: Sip = null;
 
+    @ViewChildren(KanbanColumnComponent)
+    columns: QueryList<KanbanColumnComponent>;
+
     public selectionChanged(sip: Sip) {
         this.selectedSip = sip;
-    }
-}
 
-@Component({
-    selector: 'arch-kanban-column',
-    styles: [`
-    .kanban-column {
-        border: 1px solid red;
+        this.columns.forEach(col => {
+            col.select(sip);
+        });
     }
-    `],
-    template: `
-    <div class="kanban-column">
-        <div class="kanban-column-header">{{name}}</div>
-        <arch-sip-card *ngFor="let sip of filtered(sips)" [sip]="sip" (onSelectionChanged)="selectionChanged(sip, $event)"></arch-sip-card>
-    </div>
-    `
-})
-export class KanbanColumnComponent {
-    @Input() name: string;
-    @Input() status: string;
-    @Input() sips: Sip[];
-    @Output() onSelectionChanged = new EventEmitter();
-    private selectedSip: Sip = null;
-
-    filtered(sips: Sip[]) {
-        if (!sips)
-            return null;
-        return sips.filter(sip => sip.status === this.status);
-    }
-
-    selectionChanged(sip: Sip, value: boolean) {
-        if (value)
-            this.selectedSip = sip;
-        else
-            this.selectedSip = null;
-
-        this.onSelectionChanged.emit(this.selectedSip);
-    }
-}
-
-@Component({
-    selector: 'arch-sip-card',
-    styles: [`
-    .sip {
-        border: 1px solid gray;
-        padding: 0.75rem;
-    }
-    .sip-title {
-        font-size:large;
-    }
-    .sip-guid {
-        font-family: monospace;
-        font-size: 1rem;
-        color: gray;
-    }
-    .sip-tag {
-        margin-right: 0.5rem;
-    }
-    `],
-    template: `
-    <div class="sip">
-        <div class="sip-icon" (click)="iconClicked()"></div>
-        <span class="sip-title">{{sip.title}}</span><br/>
-        <arch-labeled-text [value]="'status'">{{sip.status}}</arch-labeled-text>
-        <span class="sip-guid">{{sip.guid}}</span><br/>
-        <label for="tags">Tags:</label>
-        <span class="tags">
-            <span class="sip-tag label label-default" *ngFor="let tag of sip.tags">{{tag}}</span>
-        </span>
-    </div>
-    `
-})
-export class SipCardComponent {
-    @Input() sip: Sip;
-    @Input() selected: boolean = false;
-    @Output() onSelectionChanged = new EventEmitter();
-
-    public iconClicked() {
-        this.selected = !this.selected;
-        this.onSelectionChanged.emit(this.selected);
-    }
-}
-
-@Component({
-    selector: 'arch-labeled-text',
-    template: `
-    <label [attr.for]="value">{{value}}:</label>
-    <span class="sip-{{value}}" [attr.name]="value">
-        <ng-content></ng-content>
-    </span>
-    <br/>
-    `
-})
-export class LabeledTextComponent {
-    @Input() value: string;
 }
 
 @Component({
