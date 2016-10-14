@@ -14,20 +14,66 @@ import { Sip } from '../models/sip';
     }
     `],
     template: `
-sips:
-<arch-sip-card *ngFor="let sip of sips" [sip]="sip" (onSelectionChanged)="selectionChanged(sip, $event)"></arch-sip-card>
-<arch-sip-details [sip]="selectedSip"></arch-sip-details>
+    <div class="row">
+        <arch-kanban-column [name]="'Backlog'" [status]="'open'" 
+            [sips]="sips" (onSelectionChanged)="selectionChanged($event)" class="col-md-3">
+        </arch-kanban-column>
+        <arch-kanban-column [name]="'To Do'" [status]="'todo'" 
+            [sips]="sips" (onSelectionChanged)="selectionChanged($event)" class="col-md-3">
+        </arch-kanban-column>
+        <arch-kanban-column [name]="'In Progress'" [status]="'in-progress'" 
+            [sips]="sips" (onSelectionChanged)="selectionChanged($event)" class="col-md-3">
+        </arch-kanban-column>
+        <arch-kanban-column [name]="'Done'" [status]="'closed'" 
+            [sips]="sips" (onSelectionChanged)="selectionChanged($event)" class="col-md-3">
+        </arch-kanban-column>
+    </div>
+    <arch-sip-details [sip]="selectedSip"></arch-sip-details>
     `
 })
 export class KanbanComponent {
     @Input() sips: Sip[];
     private selectedSip: Sip = null;
 
-    public selectionChanged(sip: Sip, value: boolean) {
+    public selectionChanged(sip: Sip) {
+        this.selectedSip = sip;
+    }
+}
+
+@Component({
+    selector: 'arch-kanban-column',
+    styles: [`
+    .kanban-column {
+        border: 1px solid red;
+    }
+    `],
+    template: `
+    <div class="kanban-column">
+        <div class="kanban-column-header">{{name}}</div>
+        <arch-sip-card *ngFor="let sip of filtered(sips)" [sip]="sip" (onSelectionChanged)="selectionChanged(sip, $event)"></arch-sip-card>
+    </div>
+    `
+})
+export class KanbanColumnComponent {
+    @Input() name: string;
+    @Input() status: string;
+    @Input() sips: Sip[];
+    @Output() onSelectionChanged = new EventEmitter();
+    private selectedSip: Sip = null;
+
+    filtered(sips: Sip[]) {
+        if (!sips)
+            return null;
+        return sips.filter(sip => sip.status === this.status);
+    }
+
+    selectionChanged(sip: Sip, value: boolean) {
         if (value)
             this.selectedSip = sip;
         else
             this.selectedSip = null;
+
+        this.onSelectionChanged.emit(this.selectedSip);
     }
 }
 
@@ -43,7 +89,7 @@ export class KanbanComponent {
     }
     .sip-guid {
         font-family: monospace;
-        font-size: small;
+        font-size: 1rem;
         color: gray;
     }
     .sip-tag {
@@ -54,8 +100,8 @@ export class KanbanComponent {
     <div class="sip">
         <div class="sip-icon" (click)="iconClicked()"></div>
         <span class="sip-title">{{sip.title}}</span><br/>
-        <span class="sip-guid">{{sip.guid}}</span><br/>
         <arch-labeled-text [value]="'status'">{{sip.status}}</arch-labeled-text>
+        <span class="sip-guid">{{sip.guid}}</span><br/>
         <label for="tags">Tags:</label>
         <span class="tags">
             <span class="sip-tag label label-default" *ngFor="let tag of sip.tags">{{tag}}</span>
@@ -91,7 +137,7 @@ export class LabeledTextComponent {
 @Component({
     selector: 'arch-sip-details',
     template: `
-    <div class="sip-details" *ngIf="sip">
+    <div class="sip-details col-md-12 row" *ngIf="sip">
         <div class="col-md-3">
             <span class="sip-title">{{sip.title}}</span><br/>
             <span class="sip-guid">{{sip.guid}}</span><br/>

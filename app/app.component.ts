@@ -36,8 +36,12 @@ import { AlertsComponent } from './utils/alerts/alerts.component';
 </nav>
 
 <div class="container">
-    <arch-query-input (onSubmitted)="updateSips($event)"></arch-query-input>
-    <arch-alerts class="alerts-fixed col-xs-11"></arch-alerts>
+    <div class="row">
+        <arch-query-input (onSubmitted)="updateSips($event)"></arch-query-input>
+    </div>
+    <div class="row">
+        <arch-alerts class="alerts-fixed col-xs-11"></arch-alerts>
+    </div>
     <arch-kanban [sips]="sips"></arch-kanban>
 </div>
     `
@@ -56,6 +60,5 @@ export class AppComponent {
             .subscribe(
             sips => this.sips = sips,
             errorMessage => this.alerts.add(AlertType.danger, errorMessage));
-        console.log(this.sips);
     }
 }
