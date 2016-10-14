@@ -75,12 +75,7 @@ export class KanbanComponent {
             <arch-labeled-text [value]="'created'">{{sip.created}}</arch-labeled-text>
             <arch-labeled-text [value]="'modified'">{{sip.modified}}</arch-labeled-text>
             <arch-labeled-text [value]="'due'">{{sip.due}}</arch-labeled-text>
-            <div>
-                <label for="tags">Tags:</label>
-                <span class="tags">
-                    <span class="sip-tag label label-default" *ngFor="let tag of sip.tags">{{tag}}</span>
-                </span>
-            </div>
+            <arch-taglist [tags]="sip.tags"></arch-taglist>
             <textarea class="notes">{{sip.notes}}</textarea>
         </div>
         <div class="col-md-9 text">

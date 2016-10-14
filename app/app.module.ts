@@ -9,6 +9,7 @@ import { KanbanColumnComponent } from './components/kanban-column.component';
 import { KanbanComponent, SipDetailsComponent } from './components/kanban.component';
 import { QueryInputComponent } from './components/query-input.component';
 import { SipCardComponent } from './components/sip-card.component';
+import { TagListComponent } from './components/taglist.component';
 import { SipGateway } from './services/sip-gateway.service';
 import { AlertsComponent } from './utils/alerts/alerts.component';
 import { LabeledTextComponent } from './utils/labeled-text/labeled-text.component';
@@ -23,13 +24,15 @@ import { LabeledTextComponent } from './utils/labeled-text/labeled-text.componen
     ],
     declarations: [
         AppComponent,
-        QueryInputComponent,
         KanbanComponent,
         KanbanColumnComponent,
+        QueryInputComponent,
         SipCardComponent,
         SipDetailsComponent,
-        LabeledTextComponent,
+        TagListComponent,
+
         AlertsComponent,
+        LabeledTextComponent,
     ],
     providers: [
         SipGateway

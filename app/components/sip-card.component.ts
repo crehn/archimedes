@@ -20,9 +20,6 @@ import { Sip } from '../models/sip';
         font-size: 1rem;
         color: gray;
     }
-    .sip-tag {
-        margin-right: 0.5rem;
-    }
     `],
     template: `
     <div class="sip" [class.sip-selected]="selected">
@@ -30,10 +27,7 @@ import { Sip } from '../models/sip';
         <span class="sip-title">{{sip.title}}</span><br/>
         <arch-labeled-text [value]="'status'">{{sip.status}}</arch-labeled-text>
         <span class="sip-guid">{{sip.guid}}</span><br/>
-        <label for="tags">Tags:</label>
-        <span class="tags">
-            <span class="sip-tag label label-default" *ngFor="let tag of sip.tags">{{tag}}</span>
-        </span>
+        <arch-taglist [tags]="sip.tags"></arch-taglist>
     </div>
     `
 })
