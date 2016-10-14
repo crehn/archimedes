@@ -30,7 +30,7 @@ import { KanbanColumnComponent } from './kanban-column.component';
             [sips]="sips" (onSelectionChanged)="selectionChanged($event)" class="col-md-3">
         </arch-kanban-column>
     </div>
-    <arch-sip-details [sip]="selectedSip"></arch-sip-details>
+    <arch-sip-details [sip]="selectedSip" *ngIf="selectedSip"></arch-sip-details>
     `
 })
 export class KanbanComponent {
@@ -64,7 +64,7 @@ export class KanbanComponent {
         }
     `],
     template: `
-    <div class="sip-details col-md-12 row" *ngIf="sip">
+    <div class="sip-details col-md-12 row">
         <div class="col-md-3 meta">
             <h3 class="sip-title">{{sip.title}}</h3>
             <span class="sip-guid">{{sip.guid}}</span><br/>
