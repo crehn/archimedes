@@ -136,6 +136,12 @@ export class LabeledTextComponent {
 
 @Component({
     selector: 'arch-sip-details',
+    styles: [`
+        .notes {
+            width: 100%;
+            height: 7rem;
+        }
+    `],
     template: `
     <div class="sip-details col-md-12 row" *ngIf="sip">
         <div class="col-md-3">
@@ -148,11 +154,13 @@ export class LabeledTextComponent {
             <arch-labeled-text [value]="'created'">{{sip.created}}</arch-labeled-text>
             <arch-labeled-text [value]="'modified'">{{sip.modified}}</arch-labeled-text>
             <arch-labeled-text [value]="'due'">{{sip.due}}</arch-labeled-text>
-            <label for="tags">Tags:</label>
-            <span class="tags">
-                <span class="sip-tag label label-default" *ngFor="let tag of sip.tags">{{tag}}</span>
-            </span>
-            <textarea>{{sip.notes}}</textarea>
+            <div>
+                <label for="tags">Tags:</label>
+                <span class="tags">
+                    <span class="sip-tag label label-default" *ngFor="let tag of sip.tags">{{tag}}</span>
+                </span>
+            </div>
+            <textarea class="notes">{{sip.notes}}</textarea>
         </div>
         <div class="col-md-9">
             {{sip.text}}

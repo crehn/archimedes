@@ -8,13 +8,16 @@ import { AlertsComponent } from './utils/alerts/alerts.component';
 @Component({
     selector: 'arch-app',
     styles: [`
+    .query-panel {
+        padding: 1rem;
+    }
     .alerts-fixed {
         position:fixed;
     }
     `],
     template: `
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" 
                     aria-expanded="false" aria-controls="navbar">
@@ -35,9 +38,9 @@ import { AlertsComponent } from './utils/alerts/alerts.component';
     </div>
 </nav>
 
-<div class="container">
-    <div class="row">
-        <arch-query-input (onSubmitted)="updateSips($event)"></arch-query-input>
+<div class="container-fluid">
+    <div class="row query-panel">
+        <arch-query-input (onSubmitted)="updateSips($event)" value="+foo"></arch-query-input>
     </div>
     <div class="row">
         <arch-alerts class="alerts-fixed col-xs-11"></arch-alerts>

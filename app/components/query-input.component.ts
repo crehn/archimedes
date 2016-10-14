@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'arch-query-input',
@@ -10,11 +10,12 @@ import { Component, EventEmitter, Output } from '@angular/core';
     `],
     template: `
 <label for="query-input">Query:</label>
-<input type="text" #query id="query-input" autofocus (keyup.enter)="submit(query.value)">
+<input type="text" #query id="query-input" autofocus (keyup.enter)="submit(query.value)" [attr.value]="value">
 <input type="button" value="go" (click)="submit(query.value)">
     `
 })
 export class QueryInputComponent {
+    @Input() value = '';
     @Output() onSubmitted = new EventEmitter();
 
     public submit(value: string) {
