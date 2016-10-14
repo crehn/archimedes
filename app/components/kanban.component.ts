@@ -9,9 +9,10 @@ import { KanbanColumnComponent } from './kanban-column.component';
     arch-sip-details {
         position: fixed;
         width:100%;
-        height: 30%;
-        top:70%;
+        height: 40%;
+        top:60%;
         background: #FFFFCC;
+        border-top: 5px solid silver;
     }
     `],
     template: `
@@ -51,15 +52,21 @@ export class KanbanComponent {
 @Component({
     selector: 'arch-sip-details',
     styles: [`
+        .meta {
+            border-right: 1px solid silver;
+        }
+        .text {
+            padding: 1rem;
+        }
         .notes {
             width: 100%;
-            height: 7rem;
+            height: 115px;
         }
     `],
     template: `
     <div class="sip-details col-md-12 row" *ngIf="sip">
-        <div class="col-md-3">
-            <span class="sip-title">{{sip.title}}</span><br/>
+        <div class="col-md-3 meta">
+            <h3 class="sip-title">{{sip.title}}</h3>
             <span class="sip-guid">{{sip.guid}}</span><br/>
             <div class="sip-icon"></div>
             <arch-labeled-text [value]="'status'">{{sip.status}}</arch-labeled-text>
@@ -76,7 +83,7 @@ export class KanbanComponent {
             </div>
             <textarea class="notes">{{sip.notes}}</textarea>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 text">
             {{sip.text}}
         </div>
     </div>
