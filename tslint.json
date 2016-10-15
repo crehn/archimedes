@@ -17,8 +17,14 @@
         ],
         "label-position": true,
         "label-undefined": true,
-    	"linebreak-style": [true, "LF"],
-    	"max-file-line-count": [true, 300],
+        "linebreak-style": [
+            true,
+            "LF"
+        ],
+        "max-file-line-count": [
+            true,
+            300
+        ],
         "max-line-length": [
             true,
             140
@@ -31,7 +37,7 @@
         ],
         "no-arg": true,
         "no-bitwise": true,
-    	"no-conditional-assignment": true,
+        "no-conditional-assignment": true,
         "no-console": [
             true,
             "debug",
@@ -47,23 +53,26 @@
         "no-empty": false,
         "no-eval": true,
         "no-inferrable-types": true,
-    	"no-internal-module": true,
-    	"no-invalid-this": true,
-    	"no-mergeable-namespace": true,
-    	"no-namespace": [true, "allow-declarations"],
-    	"no-reference": true,
-    	"no-require-imports": true,
+        "no-internal-module": true,
+        "no-invalid-this": true,
+        "no-mergeable-namespace": true,
+        "no-namespace": [
+            true,
+            "allow-declarations"
+        ],
+        "no-reference": true,
+        "no-require-imports": true,
         "no-shadowed-variable": true,
         "no-string-literal": false,
         "no-switch-case-fall-through": true,
         "no-trailing-whitespace": true,
-    	"no-unsafe-finally": true,
+        "no-unsafe-finally": true,
         "no-unused-expression": true,
         "no-unused-variable": true,
         "no-unreachable": true,
         "no-use-before-declare": true,
         "no-var-keyword": true,
-    	"no-var-requires": true,
+        "no-var-requires": true,
         "object-literal-sort-keys": false,
         "one-line": [
             true,
@@ -71,7 +80,7 @@
             "check-catch",
             "check-whitespace"
         ],
-    	"ordered-imports": true,
+        "ordered-imports": true,
         "quotemark": [
             true,
             "single"
@@ -94,8 +103,11 @@
                 "variable-declaration": "nospace"
             }
         ],
-    	"use-isnan": true,
-    	"use-strict": [true, "check-module"],
+        "use-isnan": true,
+        "use-strict": [
+            true,
+            "check-module"
+        ],
         "variable-name": false,
         "whitespace": [
             true,
@@ -105,24 +117,49 @@
             "check-separator",
             "check-type"
         ],
-        "directive-selector-name": [true, "camelCase"],
-        "component-selector-name": [true, "kebab-case"],
-        "directive-selector-type": [true, "attribute"],
-        "component-selector-type": [true, "element"],
-        "directive-selector-prefix": [true, "arch"],
-        "component-selector-prefix": [true, "arch"],
+        "directive-selector-name": [
+            true,
+            "camelCase"
+        ],
+        "component-selector-name": [
+            true,
+            "kebab-case"
+        ],
+        "directive-selector-type": [
+            true,
+            "attribute"
+        ],
+        "component-selector-type": [
+            true,
+            "element"
+        ],
+        "directive-selector-prefix": [
+            true,
+            "arch"
+        ],
+        "component-selector-prefix": [
+            true,
+            "arch"
+        ],
         "use-input-property-decorator": true,
         "use-output-property-decorator": true,
         "use-host-property-decorator": true,
         "no-attribute-parameter-decorator": true,
         "no-input-rename": true,
         "no-output-rename": true,
-        "no-forward-ref" :true,
+        "no-forward-ref": true,
         "use-life-cycle-interface": true,
         "use-pipe-transform-interface": true,
-        "pipe-naming": [true, "camelCase", "arch"],
+        "pipe-naming": [
+            true,
+            "camelCase",
+            "arch"
+        ],
         "component-class-suffix": true,
         "directive-class-suffix": true,
-        "import-destructuring-spacing": true
+        "import-destructuring-spacing": true,
+        "templates-use-public": false,
+        "no-access-missing-member": true,
+        "invoke-injectable": true
     }
 }
