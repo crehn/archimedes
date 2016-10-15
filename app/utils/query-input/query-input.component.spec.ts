@@ -54,6 +54,14 @@ describe('QueryInputComponent', function () {
         expect(button.value).toBe('go');
     });
 
+    it('should have a default value', () => {
+        fixture.componentInstance.value = 'some value';
+        fixture.detectChanges();
+
+        let input = getTextField();
+        expect(input.value).toBe('some value');
+    });
+
     it('should submit empty string using button', () => {
         let button = getButton();
 
