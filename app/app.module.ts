@@ -8,11 +8,11 @@ import { AppComponent } from './app.component';
 import { KanbanColumnComponent } from './components/kanban-column.component';
 import { KanbanComponent, SipDetailsComponent } from './components/kanban.component';
 import { SipCardComponent } from './components/sip-card.component';
-import { TagListComponent } from './components/taglist.component';
 import { SipGateway } from './services/sip-gateway.service';
 import { AlertsComponent } from './utils/alerts/alerts.component';
 import { LabeledTextComponent } from './utils/labeled-text/labeled-text.component';
 import { QueryInputComponent } from './utils/query-input/query-input.component';
+import { TagListComponent } from './utils/taglist/taglist.component';
 
 @NgModule({
     imports: [
