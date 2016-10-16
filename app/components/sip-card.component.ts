@@ -9,6 +9,10 @@ import { Sip } from '../models/sip';
         border: 1px solid gray;
         padding: 0.75rem;
         background-color: white;
+        cursor: move;
+        cursor: grab;
+        cursor: -moz-grab;
+        cursor: -webkit-grab;
     }
     .sip-selected {
         background-color: #e6f2ff;

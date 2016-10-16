@@ -17,11 +17,17 @@ import { SipCardComponent } from './sip-card.component';
         font-size: 2rem;
         text-align: center;
     }
+    .drop-area {
+        min-height: 100vh;
+    }
     `],
     template: `
     <div class="kanban-column">
         <div class="kanban-column-header">{{name}}</div>
-        <arch-sip-card *ngFor="let sip of filtered(sips)" [sip]="sip" (onSelectionChanged)="selectionChanged(sip, $event)"></arch-sip-card>
+        <div class="drop-area" [dragula]="'bag'">
+            <arch-sip-card *ngFor="let sip of filtered(sips)" [sip]="sip" 
+                (onSelectionChanged)="selectionChanged(sip, $event)"></arch-sip-card>
+        </div>
     </div>
     `
 })

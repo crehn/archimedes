@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 
 import { AppComponent } from './app.component';
 import { KanbanColumnComponent } from './components/kanban-column.component';
@@ -22,7 +23,8 @@ import { TagListComponent } from './utils/taglist/taglist.component';
         FormsModule,
         HttpModule,
         JsonpModule,
-        Ng2BootstrapModule
+        Ng2BootstrapModule,
+        DragulaModule
     ],
     declarations: [
         AppComponent,
