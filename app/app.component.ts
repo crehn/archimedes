@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { Sip } from './models/sip';
-import { SipGateway } from './services/sip-gateway.service';
+import { SipCache } from './services/sip-cache.service';
 import { AlertType } from './utils/alerts/alert';
 import { AlertsComponent } from './utils/alerts/alerts.component';
 
@@ -55,13 +55,22 @@ export class AppComponent {
     @ViewChild(AlertsComponent)
     private alerts: AlertsComponent;
 
-    constructor(private sipGateway: SipGateway) {
+    constructor(private repo: SipCache) {
     }
 
     public updateSips(query: string) {
-        this.sipGateway.querySips(query)
+        this.repo.query(query)
             .subscribe(
-            sips => this.sips = sips,
-            errorMessage => this.alerts.add(AlertType.danger, errorMessage));
+            queryResult => {
+                if (queryResult.errorMessage)
+                    this.showError(queryResult.errorMessage);
+                if (queryResult.sips.length > 0)
+                    this.sips = queryResult.sips;
+            },
+            errorMessage => this.showError(errorMessage));
+    }
+
+    private showError(errorMessage: string) {
+        this.alerts.add(AlertType.danger, errorMessage);
     }
 }

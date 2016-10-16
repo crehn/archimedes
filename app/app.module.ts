@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { KanbanColumnComponent } from './components/kanban-column.component';
 import { KanbanComponent, SipDetailsComponent } from './components/kanban.component';
 import { SipCardComponent } from './components/sip-card.component';
+import { CommandService } from './services/command.service';
+import { SipCache } from './services/sip-cache.service';
 import { SipGateway } from './services/sip-gateway.service';
 import { AlertsComponent } from './utils/alerts/alerts.component';
 import { LabeledTextComponent } from './utils/labeled-text/labeled-text.component';
@@ -35,7 +37,9 @@ import { TagListComponent } from './utils/taglist/taglist.component';
         LabeledTextComponent,
     ],
     providers: [
-        SipGateway
+        CommandService,
+        SipGateway,
+        SipCache
     ],
     bootstrap: [AppComponent]
 })
