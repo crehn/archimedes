@@ -6,8 +6,16 @@ import { SipCardComponent } from './sip-card.component';
 @Component({
     selector: 'arch-kanban-column',
     styles: [`
+    :host{
+        border: 1px solid silver;
+        background-color: #f7f7f7;
+    }
     .kanban-column {
-        border: 1px solid red;
+    }
+    .kanban-column-header {
+        font-weight: bold;
+        font-size: 2rem;
+        text-align: center;
     }
     `],
     template: `

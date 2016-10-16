@@ -8,6 +8,7 @@ import { Sip } from '../models/sip';
     .sip {
         border: 1px solid gray;
         padding: 0.75rem;
+        background-color: white;
     }
     .sip-selected {
         background-color: #e6f2ff;
