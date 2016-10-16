@@ -13,6 +13,7 @@ import { AlertsComponent } from './utils/alerts/alerts.component';
     }
     .alerts-fixed {
         position:fixed;
+        z-index: 9999;
     }
     `],
     template: `
@@ -43,7 +44,7 @@ import { AlertsComponent } from './utils/alerts/alerts.component';
         <arch-query-input (onSubmitted)="updateSips($event)" value="+foo"></arch-query-input>
     </div>
     <div class="row">
-        <arch-alerts class="alerts-fixed col-xs-11"></arch-alerts>
+        <arch-alerts class="alerts-fixed col-md-10 col-md-offset-1"></arch-alerts>
     </div>
     <arch-kanban [sips]="sips"></arch-kanban>
 </div>
