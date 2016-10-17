@@ -10,15 +10,3 @@ body {
     margin: 0.75rem 0.75rem 0 0.75rem;
     cursor: pointer;
 }
-
-.gu-transit div {
-    opacity: 0.3;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-    filter: alpha(opacity=30);
-}
-
-.gu-mirror div, .gu-mirror div span {
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
-}

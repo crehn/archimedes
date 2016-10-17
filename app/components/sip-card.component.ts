@@ -5,6 +5,9 @@ import { Sip } from '../models/sip';
 @Component({
     selector: 'arch-sip-card',
     styles: [`
+    :host {
+        display: block;
+    }
     .sip {
         border: 1px solid gray;
         padding: 0.75rem;
