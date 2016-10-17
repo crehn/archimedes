@@ -58,6 +58,13 @@ export class UpdateSipCommand extends Command {
     public doExecute(repo: SipRepository): Observable<void> {
         return repo.update(this.sipAfter);
     }
+
+    public static createStatusUpdate(sip: Sip, newStatus: string) {
+        const sipBefore = Object.assign({}, sip);
+        const sipAfter = Object.assign({}, sip);
+        sipAfter.status = newStatus;
+        return new UpdateSipCommand(sipBefore, sipAfter);
+    }
 }
 
 export class DeleteSipCommand extends Command {

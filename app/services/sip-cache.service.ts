@@ -34,6 +34,10 @@ export class SipCache implements SipRepository {
         return uuid;
     }
 
+    public getSip(guid: string) {
+        return this.sips[guid];
+    }
+
     public query(query: string): Observable<QueryResult> {
         const observable = this.gateway.query(query);
         observable.subscribe(

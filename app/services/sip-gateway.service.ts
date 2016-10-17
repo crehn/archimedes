@@ -17,7 +17,7 @@ export class SipGateway implements SipRepository {
     }
 
     public create(sip: Sip): Observable<void> {
-        return this.http.put(this.sipResource(sip), this.headers({ 'Content-Type': 'application/json' }))
+        return this.http.put(this.sipResource(sip), sip, this.headers({ 'Content-Type': 'application/json' }))
             .catch(this.handleError);
     }
 
@@ -48,7 +48,7 @@ export class SipGateway implements SipRepository {
     }
 
     public update(sip: Sip): Observable<void> {
-        return this.http.put(this.sipResource(sip), this.headers({ 'Content-Type': 'application/json' }))
+        return this.http.put(this.sipResource(sip), sip, this.headers({ 'Content-Type': 'application/json' }))
             .catch(this.handleError);
     }
 

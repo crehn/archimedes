@@ -1,6 +1,10 @@
-import { Component, Input, QueryList, ViewChildren } from '@angular/core';
+import { SipCache } from '../services/sip-cache.service';
+import { CommandService } from '../services/command.service';
+import { Component, Input, ViewChildren, QueryList } from '@angular/core';
+import { DragulaService } from 'ng2-dragula/ng2-dragula';
 
 import { Sip } from '../models/sip';
+import { UpdateSipCommand } from '../models/command';
 import { KanbanColumnComponent } from './kanban-column.component';
 
 @Component({
@@ -39,6 +43,26 @@ export class KanbanComponent {
 
     @ViewChildren(KanbanColumnComponent)
     columns: QueryList<KanbanColumnComponent>;
+
+    constructor(private repo: SipCache,
+        private commandService: CommandService,
+        private dragulaService: DragulaService) {
+        dragulaService.drop.subscribe((value: any[]) => {
+            let [bagName, el, target, source, sibling] = value;
+            this.onDrop(el, target, source, sibling);
+        });
+    }
+
+    private onDrop(el: HTMLElement, target: HTMLDivElement, source: HTMLDivElement, sibling: HTMLElement) {
+        let newStatus = target.getAttribute("data-status");
+        let guid = el.getAttribute("data-guid");
+        let sip = this.repo.getSip(guid);
+        let oldStatus = sip.status;
+        if (newStatus != oldStatus) {
+            this.commandService.execute(UpdateSipCommand.createStatusUpdate(sip, newStatus));
+        }
+    }
+
 
     public selectionChanged(sip: Sip) {
         this.selectedSip = sip;

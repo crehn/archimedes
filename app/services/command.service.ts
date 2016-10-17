@@ -5,7 +5,7 @@ import { SipCache } from './sip-cache.service';
 
 @Injectable()
 export class CommandService {
-    private commands: Command[];
+    private commands: Command[] = [];
 
     constructor(private repo: SipCache) {
     }

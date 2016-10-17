@@ -24,8 +24,8 @@ import { SipCardComponent } from './sip-card.component';
     template: `
     <div class="kanban-column">
         <div class="kanban-column-header">{{name}}</div>
-        <div class="drop-area" [dragula]="'bag'">
-            <arch-sip-card *ngFor="let sip of filtered(sips)" [sip]="sip" 
+        <div class="drop-area" [dragula]="'bag'" [attr.data-status]="status">
+            <arch-sip-card *ngFor="let sip of filtered(sips)" [sip]="sip" [attr.data-guid]="sip.guid"
                 (onSelectionChanged)="selectionChanged(sip, $event)"></arch-sip-card>
         </div>
     </div>
