@@ -48,7 +48,9 @@ export class KanbanComponent implements OnInit {
         private commandService: CommandService,
         private dragulaService: DragulaService) {
         dragulaService.drop.subscribe((value: any[]) => {
+            /* tslint:disable */
             let [bagName, el, target, source, sibling] = value;
+            /* tslint:enable */
             this.onDrop(el, target, source, sibling);
         });
     }
