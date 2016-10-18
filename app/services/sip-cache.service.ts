@@ -1,5 +1,6 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { Sip } from '../models/sip';
 import { SipRepository } from '../models/sip-repository';
@@ -17,7 +18,8 @@ export class SipCache implements SipRepository {
     private _queryString: string;
     private sips: Sip[] = [];
     private cachedSips: Map<string, Sip> = new Map<string, Sip>();
-    public sipsChanged: EventEmitter<Sip[]> = new EventEmitter();
+    public onSipsChanged: Subject<Sip[]> = new Subject();
+    public onError: Subject<string> = new Subject();
 
     constructor(private gateway: SipGateway) {
     }
@@ -26,7 +28,7 @@ export class SipCache implements SipRepository {
         sip.guid = this.newGuid();
         this.cachedSips[sip.guid] = sip;
         this.sips.push(sip);
-        this.sipsChanged.emit(this.sips);
+        this.onSipsChanged.next(this.sips);
         return this.gateway.create(sip);
     }
 
@@ -57,13 +59,13 @@ export class SipCache implements SipRepository {
             result => {
                 this.mergeIntoCache(result);
                 this.sips = result;
-                this.sipsChanged.emit(this.sips);
+                this.onSipsChanged.next(this.sips);
             },
             error => {
-                this.sipsChanged.error(error);
+                this.onError.next(error);
                 const localSips = this.queryLocally(query);
                 this.sips = localSips;
-                this.sipsChanged.emit(this.sips);
+                this.onSipsChanged.next(this.sips);
             });
     }
 
@@ -82,14 +84,14 @@ export class SipCache implements SipRepository {
             if (s.guid === sip.guid)
                 Object.assign(s, sip);
         });
-        this.sipsChanged.emit(this.sips);
+        this.onSipsChanged.next(this.sips);
         return this.gateway.update(sip);
     }
 
     public delete(sip: Sip): Observable<void> {
         this.cachedSips.delete(sip.guid);
         this.sips = this.sips.filter(s => s.guid === sip.guid);
-        this.sipsChanged.emit(this.sips);
+        this.onSipsChanged.next(this.sips);
         return this.gateway.delete(sip);
     }
 }

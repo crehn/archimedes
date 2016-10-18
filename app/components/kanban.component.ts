@@ -56,7 +56,7 @@ export class KanbanComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.repo.sipsChanged.subscribe(
+        this.repo.onSipsChanged.subscribe(
             (sips: Sip[]) => this.sips = sips
         );
     }

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Sip } from './models/sip';
 import { SipCache } from './services/sip-cache.service';
 import { AlertType } from './utils/alerts/alert';
 import { AlertsComponent } from './utils/alerts/alerts.component';
@@ -58,8 +57,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.repo.sipsChanged.subscribe(
-            (sips: Sip[]): void => { },
+        this.repo.onError.subscribe(
             (errorMessage: string) => this.showError(errorMessage)
         );
     }
