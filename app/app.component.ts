@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { Sip } from './models/sip';
 import { SipCache } from './services/sip-cache.service';
@@ -41,34 +41,31 @@ import { AlertsComponent } from './utils/alerts/alerts.component';
 
 <div class="container-fluid">
     <div class="row query-panel">
-        <arch-query-input (onSubmitted)="updateSips($event)" value="+foo"></arch-query-input>
+        <arch-query-input (onSubmitted)="updateQuery($event)" value="+foo"></arch-query-input>
     </div>
     <div class="row">
         <arch-alerts class="alerts-fixed col-md-10 col-md-offset-1"></arch-alerts>
     </div>
-    <arch-kanban [sips]="sips"></arch-kanban>
+    <arch-kanban></arch-kanban>
 </div>
     `
 })
-export class AppComponent {
-    private sips: Sip[];
-
+export class AppComponent implements OnInit {
     @ViewChild(AlertsComponent)
     private alerts: AlertsComponent;
 
     constructor(private repo: SipCache) {
     }
 
-    public updateSips(query: string) {
-        this.repo.query(query)
-            .subscribe(
-            queryResult => {
-                if (queryResult.errorMessage)
-                    this.showError(queryResult.errorMessage);
-                if (queryResult.sips.length > 0)
-                    this.sips = queryResult.sips;
-            },
-            errorMessage => this.showError(errorMessage));
+    ngOnInit() {
+        this.repo.sipsChanged.subscribe(
+            (sips: Sip[]): void => { },
+            (errorMessage: string) => this.showError(errorMessage)
+        );
+    }
+
+    public updateQuery(query: string) {
+        this.repo.queryString = query;
     }
 
     private showError(errorMessage: string) {

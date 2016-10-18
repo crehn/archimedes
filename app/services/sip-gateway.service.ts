@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 
-import { QueryResult, Sip } from '../models/sip';
+import { Sip } from '../models/sip';
 import { SipRepository } from '../models/sip-repository';
 
 @Injectable()
@@ -32,10 +32,10 @@ export class SipGateway implements SipRepository {
         return Observable.throw(errMsg);
     }
 
-    public query(query: string): Observable<QueryResult> {
+    public query(query: string): Observable<Sip[]> {
         const queryResource = this.ENDPOINT + '/sips?q=' + encodeURIComponent(query);
         return this.http.get(queryResource, this.headers({ 'Accept': 'application/json' }))
-            .map((response: Response) => new QueryResult(response.json()))
+            .map((response: Response) => response.json())
             .catch(this.handleError);
     }
 

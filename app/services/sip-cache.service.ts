@@ -1,20 +1,32 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { QueryResult, Sip } from '../models/sip';
+import { Sip } from '../models/sip';
 import { SipRepository } from '../models/sip-repository';
 import { SipGateway } from './sip-gateway.service';
 
+/**
+ * 4 steps each:
+ *  - update cachedSips
+ *  - update sips
+ *  - update gui ==> sipsChanged.emit()
+ *  - update backend asynchronously
+ */
 @Injectable()
 export class SipCache implements SipRepository {
-    private sips: Map<string, Sip> = new Map<string, Sip>();
+    private _queryString: string;
+    private sips: Sip[] = [];
+    private cachedSips: Map<string, Sip> = new Map<string, Sip>();
+    public sipsChanged: EventEmitter<Sip[]> = new EventEmitter();
 
     constructor(private gateway: SipGateway) {
     }
 
     public create(sip: Sip): Observable<void> {
         sip.guid = this.newGuid();
-        this.sips[sip.guid] = sip;
+        this.cachedSips[sip.guid] = sip;
+        this.sips.push(sip);
+        this.sipsChanged.emit(this.sips);
         return this.gateway.create(sip);
     }
 
@@ -35,33 +47,49 @@ export class SipCache implements SipRepository {
     }
 
     public getSip(guid: string) {
-        return this.sips[guid];
+        return this.cachedSips[guid];
     }
 
-    public query(query: string): Observable<QueryResult> {
-        const observable = this.gateway.query(query);
-        observable.subscribe(
-            result => this.merge(result.sips),
-            errorMessage => this.queryLocally(query, errorMessage));
-        return observable;
+    public set queryString(query: string) {
+        this._queryString = query;
+
+        this.gateway.query(this._queryString).subscribe(
+            result => {
+                this.mergeIntoCache(result);
+                this.sips = result;
+                this.sipsChanged.emit(this.sips);
+            },
+            error => {
+                this.sipsChanged.error(error);
+                const localSips = this.queryLocally(query);
+                this.sips = localSips;
+                this.sipsChanged.emit(this.sips);
+            });
     }
 
-    private merge(sips: Sip[]) {
-        sips.forEach(sip => this.sips[sip.guid] = sip);
+    private mergeIntoCache(sips: Sip[]) {
+        sips.forEach(sip => this.cachedSips[sip.guid] = sip);
     }
 
-    private queryLocally(query: string, errorMessage: string): Observable<Sip[]> {
+    private queryLocally(query: string): Sip[] {
         // TODO: query locally
-        return null; // new QueryResult([], errorMessage);
+        return [];
     }
 
     public update(sip: Sip): Observable<void> {
-        this.sips[sip.guid] = sip;
+        this.cachedSips[sip.guid] = sip;
+        this.sips.forEach(s => {
+            if (s.guid === sip.guid)
+                Object.assign(s, sip);
+        });
+        this.sipsChanged.emit(this.sips);
         return this.gateway.update(sip);
     }
 
     public delete(sip: Sip): Observable<void> {
-        this.sips.delete(sip.guid);
+        this.cachedSips.delete(sip.guid);
+        this.sips = this.sips.filter(s => s.guid === sip.guid);
+        this.sipsChanged.emit(this.sips);
         return this.gateway.delete(sip);
     }
 }

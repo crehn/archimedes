@@ -55,15 +55,15 @@ export class CreateSipCommand extends Command {
 export class UpdateSipCommand extends Command {
     type = CommandType.UPDATE;
 
-    public doExecute(repo: SipRepository): Observable<void> {
-        return repo.update(this.sipAfter);
-    }
-
     public static createStatusUpdate(sip: Sip, newStatus: string) {
         const sipBefore = Object.assign({}, sip);
         const sipAfter = Object.assign({}, sip);
         sipAfter.status = newStatus;
         return new UpdateSipCommand(sipBefore, sipAfter);
+    }
+
+    public doExecute(repo: SipRepository): Observable<void> {
+        return repo.update(this.sipAfter);
     }
 }
 

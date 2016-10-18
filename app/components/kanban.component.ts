@@ -1,10 +1,10 @@
-import { SipCache } from '../services/sip-cache.service';
-import { CommandService } from '../services/command.service';
-import { Component, Input, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 
-import { Sip } from '../models/sip';
 import { UpdateSipCommand } from '../models/command';
+import { Sip } from '../models/sip';
+import { CommandService } from '../services/command.service';
+import { SipCache } from '../services/sip-cache.service';
 import { KanbanColumnComponent } from './kanban-column.component';
 
 @Component({
@@ -37,7 +37,7 @@ import { KanbanColumnComponent } from './kanban-column.component';
     <arch-sip-details [sip]="selectedSip" *ngIf="selectedSip"></arch-sip-details>
     `
 })
-export class KanbanComponent {
+export class KanbanComponent implements OnInit {
     @Input() sips: Sip[];
     private selectedSip: Sip = null;
 
@@ -53,16 +53,21 @@ export class KanbanComponent {
         });
     }
 
+    ngOnInit() {
+        this.repo.sipsChanged.subscribe(
+            (sips: Sip[]) => this.sips = sips
+        );
+    }
+
     private onDrop(el: HTMLElement, target: HTMLDivElement, source: HTMLDivElement, sibling: HTMLElement) {
-        let newStatus = target.getAttribute("data-status");
-        let guid = el.getAttribute("data-guid");
+        let newStatus = target.getAttribute('data-status');
+        let guid = el.getAttribute('data-guid');
         let sip = this.repo.getSip(guid);
         let oldStatus = sip.status;
-        if (newStatus != oldStatus) {
+        if (newStatus !== oldStatus) {
             this.commandService.execute(UpdateSipCommand.createStatusUpdate(sip, newStatus));
         }
     }
-
 
     public selectionChanged(sip: Sip) {
         this.selectedSip = sip;

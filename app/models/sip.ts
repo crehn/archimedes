@@ -21,8 +21,3 @@ export class Sip {
         }
     }
 }
-
-export class QueryResult {
-    constructor(public sips: Sip[], public errorMessage?: string) {
-    }
-}
