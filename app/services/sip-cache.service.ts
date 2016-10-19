@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { Subscriber } from 'rxjs/Subscriber';
 
 import { Sip } from '../models/sip';
 import { SipRepository } from '../models/sip-repository';
@@ -29,7 +30,16 @@ export class SipCache implements SipRepository {
         this.cachedSips[sip.guid] = sip;
         this.sips.push(sip);
         this.onSipsChanged.next(this.sips);
-        return this.gateway.create(sip);
+        return this.updateBackend(() => this.gateway.create(sip));
+    }
+
+    private updateBackend(operation: (() => Observable<void>)) {
+        return Observable.create((subscriber: Subscriber<void>) =>
+            operation().subscribe(
+                result => subscriber.next(result),
+                error => this.onError.next(error)
+            )
+        );
     }
 
     private newGuid(): string {
@@ -85,13 +95,13 @@ export class SipCache implements SipRepository {
                 Object.assign(s, sip);
         });
         this.onSipsChanged.next(this.sips);
-        return this.gateway.update(sip);
+        return this.updateBackend(() => this.gateway.update(sip));
     }
 
     public delete(sip: Sip): Observable<void> {
         this.cachedSips.delete(sip.guid);
         this.sips = this.sips.filter(s => s.guid === sip.guid);
         this.onSipsChanged.next(this.sips);
-        return this.gateway.delete(sip);
+        return this.updateBackend(() => this.gateway.delete(sip));
     }
 }

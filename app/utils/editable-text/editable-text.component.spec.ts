@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, EventEmitter, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -11,10 +11,10 @@ import { EditableTextComponent, FocusDirective } from './editable-text.component
     <arch-editable-text [value]="'value'" (onSubmit)="submitted($event)">inner</arch-editable-text>`
 })
 export class EditableTextWrapperComponent {
-    value: string;
+    @Output() onSubmit: EventEmitter<string> = new EventEmitter();
 
     submitted(value: string) {
-        this.value = value;
+        this.onSubmit.emit(value);
     }
 }
 
@@ -31,6 +31,7 @@ describe('EditableTextComponent', function () {
 
         fixture = TestBed.createComponent(EditableTextWrapperComponent);
         fixture.detectChanges();
+        spyOn(fixture.componentInstance.onSubmit, 'emit');
     });
 
     function getElement(query: string): DebugElement {
@@ -73,6 +74,19 @@ describe('EditableTextComponent', function () {
         fixture.detectChanges();
     }
 
+    function userInputReturn() {
+        const input = getInput();
+        input.triggerEventHandler('keyup.enter', null);
+        fixture.detectChanges();
+    }
+
+    function userInputReturnAndBlur() {
+        const input = getInput();
+        input.triggerEventHandler('keyup.enter', null);
+        input.triggerEventHandler('blur', null); // pressing return results in blur in the current implementation
+        fixture.detectChanges();
+    }
+
 
     function expectSpanWithText(value = VALUE) {
         let span = getSpan();
@@ -91,8 +105,9 @@ describe('EditableTextComponent', function () {
         expect(document.activeElement).toBe(input.nativeElement);
     }
 
-    function expectSubmitted(value: string) {
-        expect(fixture.componentInstance.value).toBe(value);
+    function expectSubmitted(value: string, times = 1) {
+        expect(fixture.componentInstance.onSubmit.emit).toHaveBeenCalledTimes(times);
+        expect(fixture.componentInstance.onSubmit.emit).toHaveBeenCalledWith(value);
     }
 
 
@@ -155,12 +170,46 @@ describe('EditableTextComponent', function () {
     });
 
 
-    describe('submit', () => {
+    describe('edit and submit', () => {
+        it('should display new text after edit', () => {
+            doubleClickText();
+            userInput(NEW_VALUE);
+            blurInput();
+
+            expectSpanWithText(NEW_VALUE);
+        });
+
         it('should submit on blur', () => {
             doubleClickText();
             blurInput();
 
             expectSubmitted(VALUE);
+        });
+
+        it('should submit on return', () => {
+            doubleClickText();
+            userInputReturn();
+
+            expectSubmitted(VALUE);
+        });
+
+        it('should submit only once on return', () => {
+            doubleClickText();
+            userInputReturnAndBlur();
+
+            expectSubmitted(VALUE);
+        });
+
+        it('should be able to edit twice', () => {
+            doubleClickText();
+            userInput(NEW_VALUE);
+            userInputReturnAndBlur();
+            expectSubmitted(NEW_VALUE, 1);
+
+            doubleClickText();
+            userInput(VALUE);
+            userInputReturnAndBlur();
+            expectSubmitted(VALUE, 2);
         });
 
         it('should submit new text after edit', () => {
@@ -169,14 +218,6 @@ describe('EditableTextComponent', function () {
             blurInput();
 
             expectSubmitted(NEW_VALUE);
-        });
-
-        it('should display new text after edit', () => {
-            doubleClickText();
-            userInput(NEW_VALUE);
-            blurInput();
-
-            expectSpanWithText(NEW_VALUE);
         });
     });
 });
