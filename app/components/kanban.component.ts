@@ -137,10 +137,12 @@ export class SipDetailsComponent {
     }
 
     titleChanged(sip: Sip, value: string) {
-        this.commandService.execute(UpdateSipCommand.change(sip, s => s.title = value));
+        if (sip.title !== value)
+            this.commandService.execute(UpdateSipCommand.change(sip, s => s.title = value));
     }
 
     sourceUriChanged(sip: Sip, value: string) {
-        this.commandService.execute(UpdateSipCommand.change(sip, s => s.sourceUri = value));
+        if (sip.sourceUri !== value)
+            this.commandService.execute(UpdateSipCommand.change(sip, s => s.sourceUri = value));
     }
 }
