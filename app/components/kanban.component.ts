@@ -109,10 +109,18 @@ export class KanbanComponent implements OnInit {
             <arch-labeled-text [value]="'sourceUri'">
                 <arch-editable-text [value]="sip.sourceUri" (onSubmit)="sourceUriChanged(sip, $event)"></arch-editable-text>
             </arch-labeled-text>
-            <arch-labeled-text [value]="'originTimestamp'">{{sip.originTimestamp}}</arch-labeled-text>
-            <arch-labeled-text [value]="'created'">{{sip.created}}</arch-labeled-text>
-            <arch-labeled-text [value]="'modified'">{{sip.modified}}</arch-labeled-text>
-            <arch-labeled-text [value]="'due'">{{sip.due}}</arch-labeled-text>
+            <arch-labeled-text [value]="'originTimestamp'">
+                <arch-date-span [value]="sip.originTimestamp"></arch-date-span>
+            </arch-labeled-text>
+            <arch-labeled-text [value]="'created'">
+                <arch-date-span [value]="sip.created"></arch-date-span>
+            </arch-labeled-text>
+            <arch-labeled-text [value]="'modified'">
+                <arch-date-span [value]="sip.modified"></arch-date-span>
+            </arch-labeled-text>
+            <arch-labeled-text [value]="'due'">
+                <arch-date-span [value]="sip.due"></arch-date-span>
+            </arch-labeled-text>
             <arch-taglist [tags]="sip.tags"></arch-taglist>
             <textarea class="notes">{{sip.notes}}</textarea>
         </div>
