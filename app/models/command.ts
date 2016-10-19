@@ -55,10 +55,17 @@ export class CreateSipCommand extends Command {
 export class UpdateSipCommand extends Command {
     type = CommandType.UPDATE;
 
-    public static createStatusUpdate(sip: Sip, newStatus: string) {
+    public static changeStatus(sip: Sip, newStatus: string) {
         const sipBefore = Object.assign({}, sip);
         const sipAfter = Object.assign({}, sip);
         sipAfter.status = newStatus;
+        return new UpdateSipCommand(sipBefore, sipAfter);
+    }
+
+    public static changeTitle(sip: Sip, newTitle: string) {
+        const sipBefore = Object.assign({}, sip);
+        const sipAfter = Object.assign({}, sip);
+        sipAfter.title = newTitle;
         return new UpdateSipCommand(sipBefore, sipAfter);
     }
 

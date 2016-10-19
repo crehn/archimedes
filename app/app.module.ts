@@ -13,6 +13,7 @@ import { CommandService } from './services/command.service';
 import { SipCache } from './services/sip-cache.service';
 import { SipGateway } from './services/sip-gateway.service';
 import { AlertsComponent } from './utils/alerts/alerts.component';
+import { EditableTextComponent, FocusDirective } from './utils/editable-text/editable-text.component';
 import { LabeledTextComponent } from './utils/labeled-text/labeled-text.component';
 import { QueryInputComponent } from './utils/query-input/query-input.component';
 import { TagListComponent } from './utils/taglist/taglist.component';
@@ -37,6 +38,8 @@ import { TagListComponent } from './utils/taglist/taglist.component';
 
         AlertsComponent,
         LabeledTextComponent,
+        EditableTextComponent,
+        FocusDirective,
     ],
     providers: [
         CommandService,

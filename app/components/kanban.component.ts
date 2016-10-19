@@ -67,7 +67,7 @@ export class KanbanComponent implements OnInit {
         let sip = this.repo.getSip(guid);
         let oldStatus = sip.status;
         if (newStatus !== oldStatus) {
-            this.commandService.execute(UpdateSipCommand.createStatusUpdate(sip, newStatus));
+            this.commandService.execute(UpdateSipCommand.changeStatus(sip, newStatus));
         }
     }
 
@@ -83,6 +83,11 @@ export class KanbanComponent implements OnInit {
 @Component({
     selector: 'arch-sip-details',
     styles: [`
+        .sip-title {
+            font-size: 2.5rem;
+            display: block;
+            margin-top: 0.25rem;
+        }
         .meta {
             border-right: 1px solid silver;
         }
@@ -97,7 +102,7 @@ export class KanbanComponent implements OnInit {
     template: `
     <div class="sip-details col-md-12 row">
         <div class="col-md-3 meta">
-            <h3 class="sip-title">{{sip.title}}</h3>
+            <arch-editable-text [class]="'sip-title'" [text]="sip.title" (onSubmit)="titleChanged(sip, $event)"></arch-editable-text>
             <span class="sip-guid">{{sip.guid}}</span><br/>
             <div class="sip-icon"></div>
             <arch-labeled-text [value]="'status'">{{sip.status}}</arch-labeled-text>
@@ -117,4 +122,11 @@ export class KanbanComponent implements OnInit {
 })
 export class SipDetailsComponent {
     @Input() sip: Sip;
+
+    constructor(private commandService: CommandService) {
+    }
+
+    titleChanged(sip: Sip, value: string) {
+        this.commandService.execute(UpdateSipCommand.changeTitle(sip, value));
+    }
 }
