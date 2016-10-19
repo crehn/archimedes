@@ -67,7 +67,7 @@ export class KanbanComponent implements OnInit {
         let sip = this.repo.getSip(guid);
         let oldStatus = sip.status;
         if (newStatus !== oldStatus) {
-            this.commandService.execute(UpdateSipCommand.changeStatus(sip, newStatus));
+            this.commandService.execute(UpdateSipCommand.change(sip, s => s.status = newStatus));
         }
     }
 
@@ -106,7 +106,9 @@ export class KanbanComponent implements OnInit {
             <span class="sip-guid">{{sip.guid}}</span><br/>
             <div class="sip-icon"></div>
             <arch-labeled-text [value]="'status'">{{sip.status}}</arch-labeled-text>
-            <arch-labeled-text [value]="'sourceUri'">{{sip.sourceUri}}</arch-labeled-text>
+            <arch-labeled-text [value]="'sourceUri'">
+                <arch-editable-text [value]="sip.sourceUri" (onSubmit)="sourceUriChanged(sip, $event)"></arch-editable-text>
+            </arch-labeled-text>
             <arch-labeled-text [value]="'originTimestamp'">{{sip.originTimestamp}}</arch-labeled-text>
             <arch-labeled-text [value]="'created'">{{sip.created}}</arch-labeled-text>
             <arch-labeled-text [value]="'modified'">{{sip.modified}}</arch-labeled-text>
@@ -127,6 +129,10 @@ export class SipDetailsComponent {
     }
 
     titleChanged(sip: Sip, value: string) {
-        this.commandService.execute(UpdateSipCommand.changeTitle(sip, value));
+        this.commandService.execute(UpdateSipCommand.change(sip, s => s.title = value));
+    }
+
+    sourceUriChanged(sip: Sip, value: string) {
+        this.commandService.execute(UpdateSipCommand.change(sip, s => s.sourceUri = value));
     }
 }
