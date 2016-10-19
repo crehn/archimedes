@@ -37,17 +37,20 @@ describe('LabeledTextComponent', function () {
         return getElement('span');
     }
 
-    it('should display label', () => {
-        let label = getLabel();
-        expect(label.nativeElement.innerText).toBe(VALUE + ':');
-        expect(label.attributes['for']).toBe(VALUE);
 
-        let span = getSpan();
-        expect(span.attributes['name']).toBe(VALUE);
-    });
+    describe('structure', () => {
+        it('should display label', () => {
+            let label = getLabel();
+            expect(label.nativeElement.innerText).toBe(VALUE + ':');
+            expect(label.attributes['for']).toBe(VALUE);
 
-    it('should display content', () => {
-        let span = getSpan();
-        expect(span.nativeElement.innerText).toContain('inner');
+            let span = getSpan();
+            expect(span.attributes['name']).toBe(VALUE);
+        });
+
+        it('should display content', () => {
+            let span = getSpan();
+            expect(span.nativeElement.innerText).toContain('inner');
+        });
     });
 });

@@ -28,67 +28,77 @@ describe('QueryInputComponent', function () {
         return getElement('input[type="button"]').nativeElement;
     }
 
+
     function pressEnter() {
         let input = getElement('input[type="text"]');
         input.triggerEventHandler('keyup.enter', {});
     }
 
     function userInput(string: string) {
-        let input = getElement('input[type="text"]');
-        input.nativeElement.value = string;
+        let input = getTextField();
+        input.value = string;
     }
+
 
     function expectOnSubmitted(value: string) {
         expect(fixture.componentInstance.onSubmitted.emit).toHaveBeenCalledWith(value);
     }
 
-    it('should have a text field', () => {
-        let input = getTextField();
 
-        expect(input).not.toBeNull();
+    describe('structure and defaults', () => {
+
+        it('should have a text field', () => {
+            let input = getTextField();
+
+            expect(input).not.toBeNull();
+        });
+
+        it('should have a go button', () => {
+            let button = getButton();
+
+            expect(button.value).toBe('go');
+        });
+
+        it('should have a default value', () => {
+            fixture.componentInstance.value = 'some value';
+            fixture.detectChanges();
+
+            let input = getTextField();
+            expect(input.value).toBe('some value');
+        });
     });
 
-    it('should have a go button', () => {
-        let button = getButton();
 
-        expect(button.value).toBe('go');
-    });
+    describe('submit', () => {
 
-    it('should have a default value', () => {
-        fixture.componentInstance.value = 'some value';
-        fixture.detectChanges();
+        it('should submit empty string using button', () => {
+            let button = getButton();
 
-        let input = getTextField();
-        expect(input.value).toBe('some value');
-    });
+            button.click();
 
-    it('should submit empty string using button', () => {
-        let button = getButton();
+            expectOnSubmitted('');
+        });
 
-        button.click();
+        it('should submit empty string using return', () => {
+            pressEnter();
 
-        expectOnSubmitted('');
-    });
+            expectOnSubmitted('');
+        });
 
-    it('should submit empty string using return', () => {
-        pressEnter();
+        it('should submit query using button', () => {
+            let button = getButton();
 
-        expectOnSubmitted('');
-    });
+            userInput('query');
+            button.click();
 
-    it('should submit query using button', () => {
-        let button = getButton();
+            expectOnSubmitted('query');
+        });
 
-        userInput('query');
-        button.click();
+        it('should submit query using return', () => {
+            userInput('query');
+            pressEnter();
 
-        expectOnSubmitted('query');
-    });
-
-    it('should submit query using return', () => {
-        userInput('query');
-        pressEnter();
-
-        expectOnSubmitted('query');
+            expectOnSubmitted('query');
+        });
     });
 });

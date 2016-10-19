@@ -32,6 +32,7 @@ module.exports = function (config) {
             // Polyfills
             'node_modules/core-js/client/shim.js',
             'node_modules/reflect-metadata/Reflect.js',
+            { pattern: 'node_modules/reflect-metadata/Reflect.js.map', included: false, watched: false },
 
             // zone.js
             'node_modules/zone.js/dist/zone.js',

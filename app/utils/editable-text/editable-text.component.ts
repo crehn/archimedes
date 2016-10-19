@@ -19,14 +19,14 @@ export class FocusDirective implements AfterViewInit {
     }
     `],
     template: `
-    <span [attr.class]="cssClass" (dblclick)="edit()" *ngIf="!editMode">{{text}}</span>
+    <span [attr.class]="cssClass" (dblclick)="edit()" *ngIf="!editMode">{{value}}</span>
     <span class="glyphicon glyphicon-pencil" (click)="edit()" *ngIf="!editMode"></span>
-    <input type="text" archAutoFocus [attr.class]="cssClass" (blur)="submit()" *ngIf="editMode" [(ngModel)]="text">
+    <input type="text" #input archAutoFocus [attr.class]="cssClass" (blur)="submit(input.value)" *ngIf="editMode" value="{{value}}">
     `
 })
 export class EditableTextComponent {
     @Input() cssClass: string;
-    @Input() text: string;
+    @Input() value: string;
     @Output() onSubmit: EventEmitter<string> = new EventEmitter();
     editMode: boolean;
 
@@ -34,8 +34,9 @@ export class EditableTextComponent {
         this.editMode = true;
     }
 
-    submit() {
+    submit(value: string) {
         this.editMode = false;
-        this.onSubmit.emit(this.text);
+        this.value = value;
+        this.onSubmit.emit(value);
     }
 }

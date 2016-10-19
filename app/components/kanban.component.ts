@@ -102,7 +102,7 @@ export class KanbanComponent implements OnInit {
     template: `
     <div class="sip-details col-md-12 row">
         <div class="col-md-3 meta">
-            <arch-editable-text [class]="'sip-title'" [text]="sip.title" (onSubmit)="titleChanged(sip, $event)"></arch-editable-text>
+            <arch-editable-text [class]="'sip-title'" [value]="sip.title" (onSubmit)="titleChanged(sip, $event)"></arch-editable-text>
             <span class="sip-guid">{{sip.guid}}</span><br/>
             <div class="sip-icon"></div>
             <arch-labeled-text [value]="'status'">{{sip.status}}</arch-labeled-text>
