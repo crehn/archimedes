@@ -94,7 +94,7 @@ export class KanbanComponent implements OnInit {
         .text {
             padding: 1rem;
         }
-        .notes {
+        arch-editable-markdown {
             width: 100%;
             height: 115px;
         }
@@ -122,10 +122,10 @@ export class KanbanComponent implements OnInit {
                 <arch-date-span [value]="sip.due"></arch-date-span>
             </arch-labeled-text>
             <arch-taglist [tags]="sip.tags"></arch-taglist>
-            <textarea class="notes">{{sip.notes}}</textarea>
+            <arch-editable-markdown [value]="sip.notes" [hideToolbar]="true"></arch-editable-markdown>
         </div>
         <div class="col-md-9 text">
-            {{sip.text}}
+            <arch-editable-markdown [value]="sip.text"></arch-editable-markdown>
         </div>
     </div>
     `

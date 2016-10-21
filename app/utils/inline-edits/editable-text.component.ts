@@ -1,14 +1,4 @@
-import { AfterViewInit, Component, Directive, ElementRef, EventEmitter, Input, Output } from '@angular/core';
-
-@Directive({
-    selector: '[archAutoFocus]'
-})
-export class FocusDirective implements AfterViewInit {
-    constructor(private el: ElementRef) { }
-    ngAfterViewInit() {
-        this.el.nativeElement.focus();
-    }
-}
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'arch-editable-text',

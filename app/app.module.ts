@@ -14,7 +14,9 @@ import { SipCache } from './services/sip-cache.service';
 import { SipGateway } from './services/sip-gateway.service';
 import { AlertsComponent } from './utils/alerts/alerts.component';
 import { DateSpanComponent } from './utils/date-span/date-span.component';
-import { EditableTextComponent, FocusDirective } from './utils/editable-text/editable-text.component';
+import { EditableMarkdownComponent } from './utils/inline-edits/editable-markdown.component';
+import { EditableTextComponent } from './utils/inline-edits/editable-text.component';
+import { FocusDirective } from './utils/inline-edits/focus.directive';
 import { LabeledTextComponent } from './utils/labeled-text/labeled-text.component';
 import { QueryInputComponent } from './utils/query-input/query-input.component';
 import { TagListComponent } from './utils/taglist/taglist.component';
@@ -37,6 +39,7 @@ import { TagListComponent } from './utils/taglist/taglist.component';
         SipDetailsComponent,
         TagListComponent,
         DateSpanComponent,
+        EditableMarkdownComponent,
 
         AlertsComponent,
         LabeledTextComponent,

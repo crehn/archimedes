@@ -3,7 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { EditableTextComponent, FocusDirective } from './editable-text.component';
+import { EditableTextComponent } from './editable-text.component';
+import { FocusDirective } from './focus.directive';
 
 @Component({
     selector: 'arch-editable-text-wrapper',
