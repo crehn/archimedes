@@ -101,7 +101,7 @@ export class KanbanComponent implements OnInit {
     `],
     template: `
     <div class="sip-details col-md-12 row">
-        <div class="col-md-3 meta">
+        <div class="col-md-4 meta">
             <arch-editable-text [class]="'sip-title'" [value]="sip.title" (onSubmit)="titleChanged(sip, $event)"></arch-editable-text>
             <span class="sip-guid">{{sip.guid}}</span><br/>
             <div class="sip-icon"></div>
@@ -122,10 +122,11 @@ export class KanbanComponent implements OnInit {
                 <arch-date-span [value]="sip.due"></arch-date-span>
             </arch-labeled-text>
             <arch-taglist [tags]="sip.tags"></arch-taglist>
-            <arch-editable-markdown [value]="sip.notes" [hideToolbar]="true"></arch-editable-markdown>
+            <arch-editable-markdown [value]="sip.notes" [hideToolbar]="true" (onSubmit)="notesChanged(sip, $event)">
+            </arch-editable-markdown>
         </div>
-        <div class="col-md-9 text">
-            <arch-editable-markdown [value]="sip.text"></arch-editable-markdown>
+        <div class="col-md-8 text">
+            <arch-editable-markdown [value]="sip.text" (onSubmit)="textChanged(sip, $event)"></arch-editable-markdown>
         </div>
     </div>
     `
@@ -144,5 +145,15 @@ export class SipDetailsComponent {
     sourceUriChanged(sip: Sip, value: string) {
         if (sip.sourceUri !== value)
             this.commandService.execute(UpdateSipCommand.change(sip, s => s.sourceUri = value));
+    }
+
+    notesChanged(sip: Sip, value: string) {
+        if (sip.notes !== value)
+            this.commandService.execute(UpdateSipCommand.change(sip, s => s.notes = value));
+    }
+
+    textChanged(sip: Sip, value: string) {
+        if (sip.text !== value)
+            this.commandService.execute(UpdateSipCommand.change(sip, s => s.text = value));
     }
 }
