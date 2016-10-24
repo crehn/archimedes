@@ -33,7 +33,9 @@ export abstract class Command {
             error => console.log('could not execute command: ' + this + ' due to ' + error));
     }
 
-    abstract doExecute(repo: SipRepository): Observable<void>;
+    protected abstract doExecute(repo: SipRepository): Observable<void>;
+
+    public abstract inverse(): Command;
 
     public toString(): string {
         return this.type + ' ' + this.sipAfter.guid;
@@ -50,6 +52,10 @@ export class CreateSipCommand extends Command {
     public doExecute(repo: SipRepository): Observable<void> {
         return repo.create(this.sipAfter);
     }
+
+    public inverse() {
+        return new DeleteSipCommand(this.sipAfter);
+    }
 }
 
 export class UpdateSipCommand extends Command {
@@ -65,6 +71,10 @@ export class UpdateSipCommand extends Command {
     public doExecute(repo: SipRepository): Observable<void> {
         return repo.update(this.sipAfter);
     }
+
+    public inverse() {
+        return new UpdateSipCommand(this.sipAfter, this.sipBefore);
+    }
 }
 
 export class DeleteSipCommand extends Command {
@@ -76,5 +86,9 @@ export class DeleteSipCommand extends Command {
 
     public doExecute(repo: SipRepository): Observable<void> {
         return repo.delete(this.sipBefore);
+    }
+
+    public inverse() {
+        return new CreateSipCommand(this.sipBefore);
     }
 }

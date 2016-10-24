@@ -100,7 +100,7 @@ export class SipCache implements SipRepository {
 
     public delete(sip: Sip): Observable<void> {
         this.cachedSips.delete(sip.guid);
-        this.sips = this.sips.filter(s => s.guid === sip.guid);
+        this.sips = this.sips.filter(s => s.guid !== sip.guid);
         this.onSipsChanged.next(this.sips);
         return this.updateBackend(() => this.gateway.delete(sip));
     }

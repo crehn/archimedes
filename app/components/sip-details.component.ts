@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { UpdateSipCommand } from '../models/command';
+import { Command, DeleteSipCommand, UpdateSipCommand } from '../models/command';
 import { Sip } from '../models/sip';
 import { CommandService } from '../services/command.service';
 
@@ -22,10 +22,21 @@ import { CommandService } from '../services/command.service';
             width: 100%;
             height: 115px;
         }
+        .glyphicon-trash, .undelete {
+            float:right;
+            margin: 0.75rem 0 0.75rem 0.75rem;
+            cursor: pointer;
+        }
+        .undelete {
+            color:red;
+        }
     `],
+    /* tslint:disable */
     template: `
     <div class="sip-details col-md-12 row">
         <div class="col-md-4 meta">
+            <span class="glyphicon glyphicon-trash" (click)="deleteSip()" title="Delete" *ngIf="!undoCommand"></span>
+            <a class="undelete" (click)="undeleteSip()" title="Undo deletion" *ngIf="undoCommand">Sip deleted -- undo</a>
             <arch-editable-text [class]="'sip-title'" [value]="sip.title" (onSubmit)="titleChanged(sip, $event)"></arch-editable-text>
             <span class="sip-guid">{{sip.guid}}</span><br/>
             <div class="sip-icon"></div>
@@ -54,11 +65,32 @@ import { CommandService } from '../services/command.service';
         </div>
     </div>
     `
+    /* tslint:enable */
 })
 export class SipDetailsComponent {
-    @Input() sip: Sip;
+    private _sip: Sip;
+    @Input() set sip(sip: Sip) {
+        this._sip = sip;
+        this.undoCommand = null;
+    }
+    get sip() {
+        return this._sip;
+    }
+
+    private undoCommand: Command;
 
     constructor(private commandService: CommandService) {
+    }
+
+    deleteSip() {
+        const command = new DeleteSipCommand(this.sip);
+        this.commandService.execute(command);
+        this.undoCommand = command.inverse();
+    }
+
+    undeleteSip() {
+        this.commandService.execute(this.undoCommand);
+        this.undoCommand = null;
     }
 
     titleChanged(sip: Sip, value: string) {
