@@ -30,8 +30,8 @@ import { Sip } from '../models/sip';
     }
     `],
     template: `
-    <div class="sip" [class.sip-selected]="selected">
-        <div class="sip-icon" (click)="iconClicked()"></div>
+    <div class="sip" [class.sip-selected]="selected" (click)="select()">
+        <div class="sip-icon"></div>
         <span class="sip-title">{{sip.title}}</span><br/>
         <arch-labeled-text [value]="'status'">{{sip.status}}</arch-labeled-text>
         <span class="sip-guid">{{sip.guid}}</span><br/>
@@ -44,7 +44,7 @@ export class SipCardComponent {
     @Input() selected: boolean = false;
     @Output() onSelectionChanged = new EventEmitter();
 
-    public iconClicked() {
+    public select() {
         this.selected = !this.selected;
         this.onSelectionChanged.emit(this.selected);
     }

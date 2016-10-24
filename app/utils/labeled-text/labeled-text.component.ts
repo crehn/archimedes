@@ -2,6 +2,11 @@ import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'arch-labeled-text',
+    styles: [`
+    label {
+        cursor: inherit;
+    }
+    `],
     template: `
     <label [attr.for]="value">{{value}}:</label>
     <span class="sip-{{value}}" [attr.name]="value">
