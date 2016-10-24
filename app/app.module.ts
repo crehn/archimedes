@@ -7,8 +7,9 @@ import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 
 import { AppComponent } from './app.component';
 import { KanbanColumnComponent } from './components/kanban-column.component';
-import { KanbanComponent, SipDetailsComponent } from './components/kanban.component';
+import { KanbanComponent } from './components/kanban.component';
 import { SipCardComponent } from './components/sip-card.component';
+import { SipDetailsComponent } from './components/sip-details.component';
 import { CommandService } from './services/command.service';
 import { SipCache } from './services/sip-cache.service';
 import { SipGateway } from './services/sip-gateway.service';
