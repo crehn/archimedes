@@ -37,7 +37,7 @@ export class TagListComponent implements AfterViewInit {
             hash = hash & hash; // Convert to 32bit integer
             /* tslint:enable */
         }
-        let hashString = hash.toString(16);
-        return '#' + hashString + '000000'.substring(hashString.length);
+        let hashString = Math.abs(hash).toString(16);
+        return '#' + (hashString + '000000'.substring(hashString.length)).substring(0, 6);
     }
 }

@@ -20,8 +20,8 @@ describe('AlertsComponent', function () {
         return fixture.debugElement.queryAll(By.css(query));
     }
 
-    function getTags(): DebugElement[] {
-        return getElements('.sip-tag');
+    function getTags(): HTMLElement[] {
+        return getElements('.sip-tag').map(el => el.nativeElement as HTMLElement);
     }
 
     it('should display no tags', () => {
@@ -36,7 +36,7 @@ describe('AlertsComponent', function () {
 
         let tags = getTags();
         expect(tags.length).toBe(1);
-        expect(tags[0].nativeElement.innerText).toBe('foo');
+        expect(tags[0].innerText).toBe('foo');
     });
 
     it('should display two tags', () => {
@@ -45,7 +45,24 @@ describe('AlertsComponent', function () {
 
         let tags = getTags();
         expect(tags.length).toBe(2);
-        expect(tags[0].nativeElement.innerText).toBe('foo');
-        expect(tags[1].nativeElement.innerText).toBe('bar');
+        expect(tags[0].innerText).toBe('foo');
+        expect(tags[1].innerText).toBe('bar');
     });
+
+    it('should specify background-color based on tag', () => {
+        fixture = TestBed.createComponent(TagListComponent);
+        fixture.componentInstance.tags = ['foo', 'bar', 'leute', 'pantarhei'];
+        fixture.detectChanges();
+
+        let tags = getTags();
+        expectColor(tags[0], 'foo', 'rgb(24, 204, 96)');
+        expectColor(tags[1], 'bar', 'rgb(23, 193, 48)');
+        expectColor(tags[2], 'leute', 'rgb(98, 25, 152)');
+        expectColor(tags[3], 'pantarhei', 'rgb(63, 81, 131)');
+    });
+
+    function expectColor(tag: HTMLElement, tagName: string, color: string) {
+        expect(tag.innerText).toBe(tagName);
+        expect(tag.style.backgroundColor).toBe(color);
+    }
 });
